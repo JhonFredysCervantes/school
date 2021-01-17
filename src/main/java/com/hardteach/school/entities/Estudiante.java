@@ -1,11 +1,13 @@
 package com.hardteach.school.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "estudiantes")
@@ -15,7 +17,7 @@ public class Estudiante {
     @Id
     private Long id;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String identificacion;
 
     @Column(nullable = false)
@@ -41,5 +43,9 @@ public class Estudiante {
 
     @Column
     private Date nacimiento;
+
+    @ManyToMany(mappedBy = "estudiantes",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("asignaturas")
+    private Set<Asignatura> asignaturas;
 
 }

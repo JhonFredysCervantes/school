@@ -25,7 +25,7 @@ public class AsignaturaServiceImp implements AsignaturaService{
     }
 
     @Override
-    public Optional<Asignatura> buscarAsignatura(Long id) {
+    public Optional<Asignatura> buscarAsignatura(String id) {
         return asigRepo.findById(id);
     }
 
@@ -35,7 +35,7 @@ public class AsignaturaServiceImp implements AsignaturaService{
     }
 
     @Override
-    public void eliminarAsignatura(Long id) {
+    public void eliminarAsignatura(String id) {
         asigRepo.deleteById(id);
     }
 }

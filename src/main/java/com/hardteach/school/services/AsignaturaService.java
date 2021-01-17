@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface AsignaturaService {
     Asignatura crearAsignatura(Asignatura asig);
     Asignatura actualizarAsignatura(Asignatura asig);
-    Optional<Asignatura> buscarAsignatura(Long id);
+    Optional<Asignatura> buscarAsignatura(String id);
     List<Asignatura> buscarAsignaturas();
-    void eliminarAsignatura(Long id);
+    void eliminarAsignatura(String id);
 }

@@ -1,0 +1,15 @@
+package com.hardteach.school.services;
+
+import com.hardteach.school.entities.Docente;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface DocenteService {
+    Docente crear(Docente docente);
+    Docente actualizar(Docente docente);
+    Optional buscarPorId(Long id);
+    Docente buscarPorIdentificacion(String identificacion);
+    List<Docente> buscarDocentes();
+    void eliminar(Long id);
+}
