@@ -6,128 +6,159 @@ import com.hardteach.school.controllers.asignatura.get.AsignaturaResponseGet;
 import com.hardteach.school.controllers.asignatura.get.AsignaturaResponseGetAll;
 import com.hardteach.school.controllers.asignatura.update.AsignaturaRequestUpdate;
 import com.hardteach.school.controllers.asignatura.update.AsignaturaResponseUpdate;
+import com.hardteach.school.controllers.exceptions.BadRequestException;
+import com.hardteach.school.controllers.exceptions.NotFoundException;
 import com.hardteach.school.entities.Asignatura;
 import com.hardteach.school.services.AsignaturaService;
 import com.hardteach.school.common.Constantes;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @RestController
-@RequestMapping(Constantes.PATH_REQUEST_COMMON_V1+"/asignaturas")
+@RequestMapping(Constantes.PATH_REQUEST_COMMON_V1+"/subject")
 public class AsignaturaController {
+
 
     @Autowired
     AsignaturaService asigService;
 
-    @ApiOperation( produces="application/json", value="Crear una asignatura", notes="Retorna La asignatura creada")
-    @ApiResponse(code=HttpServletResponse.SC_OK, message="OK - created", response= AsignaturaResponseCreate.class)
+
+
+    @ApiOperation( produces="application/json", value="Save subject", notes="Reuturns the saved object")
+    @ApiResponses({
+            @ApiResponse(code=HttpServletResponse.SC_CREATED, message="OK - saved",
+                         response= AsignaturaResponseCreate.class),
+            @ApiResponse(code=HttpServletResponse.SC_BAD_REQUEST, message="Error - wrong field")
+    })
     @PostMapping
-    public AsignaturaResponseCreate crear(@ApiParam(value="Asignatura a guardar", name="Crear") @RequestBody AsignaturaRequestCreate asig){
+    public ResponseEntity<AsignaturaResponseCreate> saveSubject(@ApiParam(value="Subject to save",
+                            name="Subject",required = true) @RequestBody AsignaturaRequestCreate request){
 
-        Asignatura asignatura = new Asignatura();
-        AsignaturaResponseCreate response = new AsignaturaResponseCreate();
+        Asignatura asignatura;
+        AsignaturaResponseCreate response;
         String id;
+        String validationResult = request.validate();
 
-        do{
-            id = (UUID.randomUUID()).toString().replace("-","").substring(0,4);
-        }while(asigService.buscarAsignatura(id).isPresent());
+        if(!validationResult.isEmpty()){
+            throw new BadRequestException(validationResult);
+        }
 
-        asignatura.setId(id);
-        asignatura.setNombre(asig.getNombreAsignatura());
-        asignatura.setNCreditos(asig.getNumeroCreditos());
-        asignatura.setDocentes(null);
-        asignatura.setEstudiantes(null);
+        id = (UUID.randomUUID()).toString();
 
+        asignatura = new Asignatura(id,request.getNombreAsignatura(),request.getNumeroCreditos(),null,null);
         asignatura = asigService.crearAsignatura(asignatura);
+        response = new AsignaturaResponseCreate(asignatura.getNombre(),asignatura.getNCreditos());
 
-        response.setNombreAsignatura(asignatura.getNombre());
-        response.setNumeroCreditos(asignatura.getNCreditos());
-
-        return response;
+        return new ResponseEntity<>(response, HttpStatus.CREATED) ;
     }
 
-    @ApiOperation(produces="application/json", value="Actualizar una asignatura", notes="Retorna La asignatura actualizada")
+
+    @ApiOperation(produces="application/json", value="Update sobject", notes="returns the updated subject")
     @ApiResponse(code=HttpServletResponse.SC_OK, message="OK - updated", response= AsignaturaRequestCreate.class)
-    @PutMapping("/{ASIGNATURA_ID}")
-    public AsignaturaResponseUpdate actualizar(@RequestBody AsignaturaRequestUpdate asig, @PathVariable("ASIGNATURA_ID") String id){
+    @PutMapping("/{SUBJECT_ID}")
+    public AsignaturaResponseUpdate updateSubject(@RequestBody AsignaturaRequestUpdate request, @PathVariable("SUBJECT_ID") String id){
+
+        AsignaturaResponseUpdate response;
+        Optional<Asignatura> oldOptional;
+        String validationResult;
 
         if(id!=null){
-            Optional<Asignatura> oldOptional = asigService.buscarAsignatura(id);
-            if(oldOptional.isPresent() && (asig.getIdAsignatura()==id)){
+
+            validationResult = request.validate();
+
+            if(!validationResult.isEmpty()){
+                throw new BadRequestException(validationResult);
+            }
+
+            oldOptional = asigService.buscarAsignatura(id);
+
+            if(oldOptional.isPresent()){
                 Asignatura old = oldOptional.get();
 
-                old.setNombre(asig.getNombreAsignatura());
-                old.setNCreditos(asig.getNumeroCreditos());
+                old.setNombre(request.getNombreAsignatura());
+                old.setNCreditos(request.getNumeroCreditos());
 
                 old =  asigService.actualizarAsignatura(old);
 
-                AsignaturaResponseUpdate response = new AsignaturaResponseUpdate();
-                response.setIdAsignatura(id);
-                response.setNombreAsignatura(old.getNombre());
-                response.setNumeroCreditos(old.getNCreditos());
+                response = new AsignaturaResponseUpdate(old.getNombre(),old.getNCreditos());
 
                 return response;
+            }else{
+                throw new NotFoundException("Subject whit id:"+id+" not found");
             }
         }
-        return null;
+        throw new BadRequestException("id (in the path) can't be null");
     }
 
-    @ApiOperation( produces="application/json", value="Buscar una asignatura", notes="Retorna La asignatura encontrada")
+
+
+    @ApiOperation( produces="application/json", value="Find subject", notes="return the found subject")
     @ApiResponses({
-            @ApiResponse(code=HttpServletResponse.SC_OK, message="OK - created", response= AsignaturaResponseCreate.class),
-            @ApiResponse(code=HttpServletResponse.SC_BAD_REQUEST, message="Recurso no encontrado")
+            @ApiResponse(code=HttpServletResponse.SC_OK, message="OK - found", response= AsignaturaResponseCreate.class),
+            @ApiResponse(code=HttpServletResponse.SC_BAD_REQUEST, message="Not found")
     })
-    @GetMapping("/{ASIGNATURA_ID}")
-    public AsignaturaResponseGet obtenerUna(@PathVariable("ASIGNATURA_ID")String id){
+    @GetMapping("/{SUBJECT_ID}")
+    public AsignaturaResponseGet findSubject(@PathVariable("SUBJECT_ID")String id){
 
-        var asigOptional = asigService.buscarAsignatura(id);
-        Asignatura asig;
-        AsignaturaResponseGet response = new AsignaturaResponseGet();
+        Optional<Asignatura> subjectOptional;
+        Asignatura subject;
+        AsignaturaResponseGet response;
 
-        if(asigOptional.isPresent()){
-            asig = asigOptional.get();
-            response.setIdAsignatura(id);
-            response.setNombreAsignatura(asig.getNombre());
-            response.setNumeroCreditos(asig.getNCreditos());
-
-            return response;
+        if(id!=null){
+            subjectOptional = asigService.buscarAsignatura(id);
+            if(subjectOptional.isPresent()){
+                subject = subjectOptional.get();
+                response = new AsignaturaResponseGet(subject.getNombre(), subject.getNCreditos());
+                return response;
+            }else{
+                throw new NotFoundException("Subject whit id:"+id+" not found");
+            }
         }
-        return null;
+
+        throw new BadRequestException("id (in the path) can't be null");
     }
 
-    @ApiOperation(produces="application/json", value="Buscar todas las asignaturas", notes="Retorna todas la asignatura encontradas")
+
+
+    @ApiOperation(produces="application/json", value="find all subjects", notes="Return found subjects")
     @ApiResponses({
-            @ApiResponse(code=HttpServletResponse.SC_OK, message="OK - found", response=List.class),
-            @ApiResponse(code=HttpServletResponse.SC_BAD_REQUEST, message="No hay recursos que mostrar")
+            @ApiResponse(code=HttpServletResponse.SC_OK, message="OK", response=List.class),
+            @ApiResponse(code=HttpServletResponse.SC_NOT_FOUND, message="there aren't subjects")
     })
     @GetMapping
-    public List<AsignaturaResponseGetAll> obtenerTodas(){
-        List<Asignatura> asignaturas = asigService.buscarAsignaturas();
+    public List<AsignaturaResponseGetAll> getAllSubjects(){
+        List<Asignatura> subjects = asigService.buscarAsignaturas();
         List<AsignaturaResponseGetAll> response = new ArrayList<AsignaturaResponseGetAll>();
-        AsignaturaResponseGetAll asigResponse;
+        AsignaturaResponseGetAll subjectsResponse;
 
-        for(Asignatura asig : asignaturas ){
-            asigResponse = new AsignaturaResponseGetAll();
-            asigResponse.setIdAsignatura(asig.getId());
-            asigResponse.setNombreAsignatura(asig.getNombre());
-            asigResponse.setNumeroCreditos(asig.getNCreditos());
-            response.add(asigResponse);
+        for(Asignatura subject : subjects ){
+            subjectsResponse = new AsignaturaResponseGetAll(subject.getId(), subject.getNombre(),subject.getNCreditos());
+            response.add(subjectsResponse);
         }
 
         return response;
     }
 
-    @ApiOperation(value = "Eliminar una asignatura", notes = "Elimina La asignatura referenciada" +
-                                                              "con el id suministrado")
-    @ApiResponse(code = HttpServletResponse.SC_OK, message = "OK - Deleted")
-    @DeleteMapping("/{ASIGNATURA_ID}")
-    public void eliminar(@PathVariable("ASIGNATURA_ID") String id){
+
+
+    @ApiOperation(value = "Deled subject", notes = "delete a sobject by id")
+    @ApiResponses({
+            @ApiResponse(code = HttpServletResponse.SC_OK, message = "OK - Deleted"),
+            @ApiResponse(code = HttpServletResponse.SC_BAD_REQUEST, message = "Bad Request - id null")
+    })
+    @DeleteMapping("/{SUBJECT_ID}")
+    public ResponseEntity<?> deleteSubject(@PathVariable("SUBJECT_ID") String id){
         if(id != null){
             asigService.eliminarAsignatura(id);
+
+            return new ResponseEntity<>(HttpStatus.OK);
         }
+        throw new BadRequestException("id (in the path) can't be null");
     }
 }

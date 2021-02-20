@@ -1,13 +1,18 @@
 package com.hardteach.school.controllers.asignatura.get;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter @Setter
-public class AsignaturaResponseGetAll {
+public class AsignaturaResponseGetAll implements Serializable {
+
     @ApiModelProperty(position = 0)
     private String idAsignatura;
 

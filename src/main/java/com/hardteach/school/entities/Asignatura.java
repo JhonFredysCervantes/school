@@ -1,18 +1,22 @@
 package com.hardteach.school.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "asignaturas")
 @Setter @Getter
+@AllArgsConstructor
 @NoArgsConstructor
-public class Asignatura {
+public class Asignatura implements Serializable {
 
     @Id
     private String id;
@@ -36,4 +40,17 @@ public class Asignatura {
             inverseJoinColumns = @JoinColumn(name = "id_docente", referencedColumnName = "id") )
     @JsonIgnoreProperties("asignaturas")
     private Set<Docente> docentes;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Asignatura that = (Asignatura) o;
+        return nCreditos == that.nCreditos && Objects.equals(id, that.id) && Objects.equals(nombre, that.nombre) && Objects.equals(estudiantes, that.estudiantes) && Objects.equals(docentes, that.docentes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
