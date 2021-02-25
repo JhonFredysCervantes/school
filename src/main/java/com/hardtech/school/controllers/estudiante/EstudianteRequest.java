@@ -1,4 +1,4 @@
-package com.hardteach.school.controllers.estudiante;
+package com.hardtech.school.controllers.estudiante;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

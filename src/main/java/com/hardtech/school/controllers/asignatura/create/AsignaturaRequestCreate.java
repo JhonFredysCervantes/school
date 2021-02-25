@@ -1,7 +1,7 @@
-package com.hardteach.school.controllers.asignatura.create;
+package com.hardtech.school.controllers.asignatura.create;
 
 
-import com.hardteach.school.common.Constantes;
+import com.hardtech.school.common.Constantes;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

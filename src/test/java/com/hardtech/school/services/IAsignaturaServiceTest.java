@@ -25,13 +25,13 @@ import java.util.Optional;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:aplicationTest.properties")
-public class AsignaturaServiceTest {
+public class IAsignaturaServiceTest {
 
     @MockBean
     AsignaturaRepository asignaturaRepository;
 
     @Autowired
-    AsignaturaService asignaturaService;
+    IAsignaturaService asignaturaService;
 
     @BeforeEach
     public void parametrizandoMock(){

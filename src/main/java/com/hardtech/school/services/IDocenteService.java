@@ -5,7 +5,7 @@ import com.hardtech.school.entities.Docente;
 import java.util.List;
 import java.util.Optional;
 
-public interface DocenteService {
+public interface IDocenteService {
     Docente crear(Docente docente);
     Docente actualizar(Docente docente);
     Optional buscarPorId(Long id);

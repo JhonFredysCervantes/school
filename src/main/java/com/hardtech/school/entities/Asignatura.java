@@ -1,7 +1,7 @@
-package com.hardteach.school.entities;
+package com.hardtech.school.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.hardteach.school.common.Constantes;
+import com.hardtech.school.common.Constantes;
 import lombok.*;
 
 import javax.persistence.*;

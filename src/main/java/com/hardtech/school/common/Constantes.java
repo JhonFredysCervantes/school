@@ -1,4 +1,4 @@
-package com.hardteach.school.common;
+package com.hardtech.school.common;
 
 public class Constantes {
     //CONSTANTES DE CONTROLADORES

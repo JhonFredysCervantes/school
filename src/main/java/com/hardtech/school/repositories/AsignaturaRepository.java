@@ -1,6 +1,6 @@
-package com.hardteach.school.repositories;
+package com.hardtech.school.repositories;
 
-import com.hardteach.school.entities.Asignatura;
+import com.hardtech.school.entities.Asignatura;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,11 +1,11 @@
-package com.hardteach.school.controllers.docente;
+package com.hardtech.school.controllers.docente;
 
-import com.hardteach.school.services.DocenteService;
+import com.hardtech.school.services.IDocenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class DocenteController {
 
     @Autowired
-    private DocenteService docenteService;
+    private IDocenteService docenteService;
 
 }

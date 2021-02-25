@@ -1,13 +1,13 @@
-package com.hardteach.school.services;
+package com.hardtech.school.services;
 
-import com.hardteach.school.entities.Docente;
-import com.hardteach.school.repositories.DocenteRepository;
+import com.hardtech.school.entities.Docente;
+import com.hardtech.school.repositories.DocenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
 
-public class DocenteServiceImp implements DocenteService{
+public class DocenteServiceImp implements IDocenteService {
 
     @Autowired
     private DocenteRepository docenteRepo;

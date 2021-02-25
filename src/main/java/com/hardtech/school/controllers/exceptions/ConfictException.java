@@ -1,4 +1,4 @@
-package com.hardteach.school.controllers.exceptions;
+package com.hardtech.school.controllers.exceptions;
 
 public class ConfictException extends RuntimeException{
 

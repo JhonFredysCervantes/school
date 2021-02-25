@@ -1,6 +1,6 @@
-package com.hardteach.school.repositories;
+package com.hardtech.school.repositories;
 
-import com.hardteach.school.objects_test.AsignaturaObjetosTest;
+import com.hardtech.school.objects_test.AsignaturaObjetosTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

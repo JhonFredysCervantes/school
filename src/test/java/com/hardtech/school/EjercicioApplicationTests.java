@@ -1,4 +1,4 @@
-package com.hardteach.school;
+package com.hardtech.school;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

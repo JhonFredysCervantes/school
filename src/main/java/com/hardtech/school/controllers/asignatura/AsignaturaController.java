@@ -1,17 +1,17 @@
-package com.hardteach.school.controllers.asignatura;
+package com.hardtech.school.controllers.asignatura;
 
-import com.hardteach.school.controllers.asignatura.create.AsignaturaRequestCreate;
-import com.hardteach.school.controllers.asignatura.create.AsignaturaResponseCreate;
-import com.hardteach.school.controllers.asignatura.get.AsignaturaResponseGet;
-import com.hardteach.school.controllers.asignatura.get.AsignaturaResponseGetAll;
-import com.hardteach.school.controllers.asignatura.update.AsignaturaRequestUpdate;
-import com.hardteach.school.controllers.asignatura.update.AsignaturaResponseUpdate;
-import com.hardteach.school.controllers.exceptions.BadRequestException;
-import com.hardteach.school.controllers.exceptions.ConfictException;
-import com.hardteach.school.controllers.exceptions.NotFoundException;
-import com.hardteach.school.entities.Asignatura;
-import com.hardteach.school.services.AsignaturaService;
-import com.hardteach.school.common.Constantes;
+import com.hardtech.school.controllers.asignatura.create.AsignaturaRequestCreate;
+import com.hardtech.school.controllers.asignatura.create.AsignaturaResponseCreate;
+import com.hardtech.school.controllers.asignatura.get.AsignaturaResponseGet;
+import com.hardtech.school.controllers.asignatura.get.AsignaturaResponseGetAll;
+import com.hardtech.school.controllers.asignatura.update.AsignaturaRequestUpdate;
+import com.hardtech.school.controllers.asignatura.update.AsignaturaResponseUpdate;
+import com.hardtech.school.controllers.exceptions.BadRequestException;
+import com.hardtech.school.controllers.exceptions.ConfictException;
+import com.hardtech.school.controllers.exceptions.NotFoundException;
+import com.hardtech.school.entities.Asignatura;
+import com.hardtech.school.services.IAsignaturaService;
+import com.hardtech.school.common.Constantes;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,10 +27,10 @@ public class AsignaturaController {
 
 
 
-    private final AsignaturaService asigService;
+    private final IAsignaturaService asigService;
 
     @Autowired
-    public AsignaturaController(AsignaturaService asigService) {
+    public AsignaturaController(IAsignaturaService asigService) {
         this.asigService = asigService;
     }
 

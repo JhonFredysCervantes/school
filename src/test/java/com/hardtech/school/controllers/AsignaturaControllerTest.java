@@ -1,13 +1,13 @@
-package com.hardteach.school.controllers;
+package com.hardtech.school.controllers;
 
-import com.hardteach.school.common.Constantes;
-import com.hardteach.school.controllers.asignatura.AsignaturaController;
-import com.hardteach.school.controllers.asignatura.create.AsignaturaRequestCreate;
-import com.hardteach.school.controllers.asignatura.create.AsignaturaResponseCreate;
-import com.hardteach.school.controllers.asignatura.get.AsignaturaResponseGet;
-import com.hardteach.school.entities.Asignatura;
-import com.hardteach.school.objects_test.AsignaturaObjetosTest;
-import com.hardteach.school.services.AsignaturaService;
+import com.hardtech.school.common.Constantes;
+import com.hardtech.school.controllers.asignatura.AsignaturaController;
+import com.hardtech.school.controllers.asignatura.create.AsignaturaRequestCreate;
+import com.hardtech.school.controllers.asignatura.create.AsignaturaResponseCreate;
+import com.hardtech.school.controllers.asignatura.get.AsignaturaResponseGet;
+import com.hardtech.school.entities.Asignatura;
+import com.hardtech.school.objects_test.AsignaturaObjetosTest;
+import com.hardtech.school.services.IAsignaturaService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import java.util.Optional;
 public class AsignaturaControllerTest {
 
     @MockBean
-    private AsignaturaService asignaturaService;
+    private IAsignaturaService asignaturaService;
 
     @Autowired
     private AsignaturaController asignaturaController;

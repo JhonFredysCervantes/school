@@ -1,7 +1,7 @@
-package com.hardteach.school.objects_test;
+package com.hardtech.school.objects_test;
 
-import com.hardteach.school.common.Constantes;
-import com.hardteach.school.entities.Asignatura;
+import com.hardtech.school.common.Constantes;
+import com.hardtech.school.entities.Asignatura;
 
 public class AsignaturaObjetosTest {
 

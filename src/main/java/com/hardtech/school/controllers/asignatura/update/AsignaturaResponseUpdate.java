@@ -1,4 +1,4 @@
-package com.hardteach.school.controllers.asignatura.update;
+package com.hardtech.school.controllers.asignatura.update;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

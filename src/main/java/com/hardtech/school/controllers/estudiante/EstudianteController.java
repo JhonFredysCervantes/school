@@ -1,10 +1,10 @@
-package com.hardteach.school.controllers.estudiante;
+package com.hardtech.school.controllers.estudiante;
 
-import com.hardteach.school.services.EstudianteService;
+import com.hardtech.school.services.IEstudianteService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class EstudianteController {
 
     @Autowired
-    private EstudianteService estudianteService;
+    private IEstudianteService estudianteService;
 }

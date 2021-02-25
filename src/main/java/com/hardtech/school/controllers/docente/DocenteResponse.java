@@ -1,4 +1,4 @@
-package com.hardteach.school.controllers.docente;
+package com.hardtech.school.controllers.docente;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
