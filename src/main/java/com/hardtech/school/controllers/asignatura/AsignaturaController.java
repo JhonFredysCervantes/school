@@ -7,6 +7,7 @@ import com.hardteach.school.controllers.asignatura.get.AsignaturaResponseGetAll;
 import com.hardteach.school.controllers.asignatura.update.AsignaturaRequestUpdate;
 import com.hardteach.school.controllers.asignatura.update.AsignaturaResponseUpdate;
 import com.hardteach.school.controllers.exceptions.BadRequestException;
+import com.hardteach.school.controllers.exceptions.ConfictException;
 import com.hardteach.school.controllers.exceptions.NotFoundException;
 import com.hardteach.school.entities.Asignatura;
 import com.hardteach.school.services.AsignaturaService;
@@ -25,9 +26,13 @@ import java.util.*;
 public class AsignaturaController {
 
 
-    @Autowired
-    AsignaturaService asigService;
 
+    private final AsignaturaService asigService;
+
+    @Autowired
+    public AsignaturaController(AsignaturaService asigService) {
+        this.asigService = asigService;
+    }
 
 
     @ApiOperation( produces="application/json", value="Save subject", notes="Reuturns the saved object")
@@ -53,7 +58,7 @@ public class AsignaturaController {
 
         asignatura = new Asignatura(id,request.getNombreAsignatura(),request.getNumeroCreditos(),null,null);
         asignatura = asigService.crearAsignatura(asignatura);
-        response = new AsignaturaResponseCreate(asignatura.getNombre(),asignatura.getNCreditos());
+        response = new AsignaturaResponseCreate(asignatura.getId(),asignatura.getNombre(),asignatura.getNCreditos());
 
         return new ResponseEntity<>(response, HttpStatus.CREATED) ;
     }
@@ -62,7 +67,7 @@ public class AsignaturaController {
     @ApiOperation(produces="application/json", value="Update sobject", notes="returns the updated subject")
     @ApiResponse(code=HttpServletResponse.SC_OK, message="OK - updated", response= AsignaturaRequestCreate.class)
     @PutMapping("/{SUBJECT_ID}")
-    public AsignaturaResponseUpdate updateSubject(@RequestBody AsignaturaRequestUpdate request, @PathVariable("SUBJECT_ID") String id){
+    public ResponseEntity<AsignaturaResponseUpdate> updateSubject(@RequestBody AsignaturaRequestUpdate request, @PathVariable("SUBJECT_ID") String id){
 
         AsignaturaResponseUpdate response;
         Optional<Asignatura> oldOptional;
@@ -88,7 +93,7 @@ public class AsignaturaController {
 
                 response = new AsignaturaResponseUpdate(old.getNombre(),old.getNCreditos());
 
-                return response;
+                return new ResponseEntity<>(response,HttpStatus.OK);
             }else{
                 throw new NotFoundException("Subject whit id:"+id+" not found");
             }
@@ -104,7 +109,7 @@ public class AsignaturaController {
             @ApiResponse(code=HttpServletResponse.SC_BAD_REQUEST, message="Not found")
     })
     @GetMapping("/{SUBJECT_ID}")
-    public AsignaturaResponseGet findSubject(@PathVariable("SUBJECT_ID")String id){
+    public ResponseEntity<AsignaturaResponseGet> findSubject(@PathVariable("SUBJECT_ID")String id){
 
         Optional<Asignatura> subjectOptional;
         Asignatura subject;
@@ -114,8 +119,8 @@ public class AsignaturaController {
             subjectOptional = asigService.buscarAsignatura(id);
             if(subjectOptional.isPresent()){
                 subject = subjectOptional.get();
-                response = new AsignaturaResponseGet(subject.getNombre(), subject.getNCreditos());
-                return response;
+                response = new AsignaturaResponseGet(subject.getId(),subject.getNombre(), subject.getNCreditos());
+                return new ResponseEntity<>(response,HttpStatus.OK);
             }else{
                 throw new NotFoundException("Subject whit id:"+id+" not found");
             }
@@ -155,9 +160,12 @@ public class AsignaturaController {
     @DeleteMapping("/{SUBJECT_ID}")
     public ResponseEntity<?> deleteSubject(@PathVariable("SUBJECT_ID") String id){
         if(id != null){
-            asigService.eliminarAsignatura(id);
-
-            return new ResponseEntity<>(HttpStatus.OK);
+            if(asigService.buscarAsignatura(id).isPresent()){
+                asigService.eliminarAsignatura(id);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }else{
+                throw new ConfictException("you can't eliminate subject, sobject does't exist");
+            }
         }
         throw new BadRequestException("id (in the path) can't be null");
     }

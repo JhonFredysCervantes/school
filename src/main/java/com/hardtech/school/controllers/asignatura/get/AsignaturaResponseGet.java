@@ -13,6 +13,9 @@ import java.io.Serializable;
 @Getter @Setter
 public class AsignaturaResponseGet implements Serializable {
 
+    @ApiModelProperty(position = 0)
+    private String idAsignatura;
+
     @ApiModelProperty(position = 1)
     private String nombreAsignatura;
 

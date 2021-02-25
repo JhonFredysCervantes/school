@@ -1,4 +1,4 @@
-package com.hardteach.school.controllers_test;
+package com.hardteach.school.controllers;
 
 import com.hardteach.school.common.Constantes;
 import com.hardteach.school.controllers.asignatura.AsignaturaController;
@@ -6,7 +6,7 @@ import com.hardteach.school.controllers.asignatura.create.AsignaturaRequestCreat
 import com.hardteach.school.controllers.asignatura.create.AsignaturaResponseCreate;
 import com.hardteach.school.controllers.asignatura.get.AsignaturaResponseGet;
 import com.hardteach.school.entities.Asignatura;
-import com.hardteach.school.objects_for_test.AsignaturaObjetosTest;
+import com.hardteach.school.objects_test.AsignaturaObjetosTest;
 import com.hardteach.school.services.AsignaturaService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,13 +80,17 @@ public class AsignaturaControllerTest {
     @Test
     public void obtenerAsignaturaControllerTest(){
 
+        final int OK = 200;
+
         Asignatura asignatura = AsignaturaObjetosTest.asignaturaValida();
 
         AsignaturaRequestCreate request = new AsignaturaRequestCreate(asignatura.getNombre(), asignatura.getNCreditos());
 
-        AsignaturaResponseGet response = asignaturaController.findSubject(asignatura.getId());
+        ResponseEntity<AsignaturaResponseGet> response = asignaturaController.findSubject(asignatura.getId());
 
-        Assertions.assertTrue(asignatura.getId() == response.getIdAsignatura());
+        Assertions.assertTrue(response.getStatusCodeValue()==OK);
+
+        Assertions.assertTrue(asignatura.getId() == response.getBody().getIdAsignatura());
 
     }
 

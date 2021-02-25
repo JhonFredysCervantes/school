@@ -1,4 +1,4 @@
-package com.hardteach.school.objects_for_test;
+package com.hardteach.school.objects_test;
 
 import com.hardteach.school.common.Constantes;
 import com.hardteach.school.entities.Asignatura;

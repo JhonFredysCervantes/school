@@ -1,6 +1,6 @@
-package com.hardteach.school.services;
+package com.hardtech.school.services;
 
-import com.hardteach.school.entities.Docente;
+import com.hardtech.school.entities.Docente;
 
 import java.util.List;
 import java.util.Optional;

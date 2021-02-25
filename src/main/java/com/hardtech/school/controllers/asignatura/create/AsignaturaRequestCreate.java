@@ -1,6 +1,7 @@
 package com.hardteach.school.controllers.asignatura.create;
 
 
+import com.hardteach.school.common.Constantes;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,14 +21,16 @@ public class AsignaturaRequestCreate {
 
     public String validate(){
         String message = "";
-        final int MIN_CREDITO = 1;
-        final int MAX_CREDITO = 8;
+        final int MIN_CREDITO = Constantes.NUM_MIN_CREDITOS_ASIGNATURA;
+        final int MAX_CREDITO = Constantes.NUM_MAX_CREDITOS_ASIGNATURA;
 
-        if(this.nombreAsignatura.isEmpty() || this.nombreAsignatura == null){
-            message.concat(" El nombre de la Asignatura es invalido. ");
+        if(this.nombreAsignatura == null){
+            message = message.concat(" El nombre de la Asignatura no puede ser nulo. ");
+        }else if(this.nombreAsignatura.isEmpty()){
+            message = message.concat(" El nombre de la Asignatura no puede estar en blanco. ");
         }
         if(this.numeroCreditos< MIN_CREDITO || this.numeroCreditos > MAX_CREDITO){
-            message.concat(" El numero de creditos tiene que estar entre: "+MIN_CREDITO+" Y "+MAX_CREDITO);
+            message = message.concat(" El numero de creditos tiene que estar entre: "+MIN_CREDITO+" Y "+MAX_CREDITO);
         }
         return message;
     }

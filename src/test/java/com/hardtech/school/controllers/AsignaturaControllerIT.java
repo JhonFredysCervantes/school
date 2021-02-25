@@ -1,10 +1,9 @@
-package com.hardteach.school.controllers_test;
+package com.hardteach.school.controllers;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import com.hardteach.school.controllers.asignatura.AsignaturaController;
-import com.hardteach.school.controllers.asignatura.create.AsignaturaRequestCreate;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class AsignaturaControllerIT {
     private AsignaturaController asignaturaController;
 
     @Test
-    public void guardarAsignatura(){
+    public void Guardar_Asignatura_Controller_Exitosamente(){
 
         String asignatura = "{\n" +
                 "  \"nombreAsignatura\": \"Programacion\",\n" +

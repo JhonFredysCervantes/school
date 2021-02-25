@@ -1,10 +1,9 @@
-package com.hardteach.school.services_test;
+package com.hardtech.school.services;
 
-import com.hardteach.school.common.Constantes;
-import com.hardteach.school.entities.Asignatura;
-import com.hardteach.school.objects_for_test.AsignaturaObjetosTest;
-import com.hardteach.school.repositories.AsignaturaRepository;
-import com.hardteach.school.services.AsignaturaService;
+import com.hardtech.school.common.Constantes;
+import com.hardtech.school.entities.Asignatura;
+import com.hardtech.school.objects_test.AsignaturaObjetosTest;
+import com.hardtech.school.repositories.AsignaturaRepository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

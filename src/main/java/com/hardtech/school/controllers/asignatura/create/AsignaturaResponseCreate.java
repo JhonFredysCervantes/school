@@ -14,9 +14,12 @@ import java.io.Serializable;
 public class AsignaturaResponseCreate implements Serializable {
 
     @ApiModelProperty(position = 0)
-    private String nombreAsignatura;
+    private String idAsignatura;
 
     @ApiModelProperty(position = 1)
+    private String nombreAsignatura;
+
+    @ApiModelProperty(position = 2)
     private int numeroCreditos;
 
 }
